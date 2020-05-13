@@ -1,0 +1,13 @@
+[Unit]
+Description=GoDDNS
+After=network.target, postgresql.service
+
+[Service]
+ExecStart=/srv/goddns/goddns-x64-linux
+WorkingDirectory=/srv/goddns/
+Restart=on-failure
+Type=simple
+User=goddns
+
+[Install]
+WantedBy=multi-user.target

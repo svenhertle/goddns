@@ -1,0 +1,40 @@
+# HTTP server
+http:
+  # By default, listen on any address and interface.
+  listen: ""
+
+  # Port for HTTP server
+  port: 8000
+
+  # Is GoDDNS operated behind a reverse proxy?
+  # If yes, the X-Forwarded-For and X-Real-IP headers are used to determine the client IP address-
+  behindProxy: false
+
+  # Use TLS (strongly recommended when no reverse proxy is used)
+  #tls:
+  #  cert: cert.pem
+  #  key: key.pem
+
+# DNS server
+backend:
+  name: "dummy"
+  #name: "powerdns"
+  #
+  #vendor: "postgres"
+  #host: "localhost"
+  #port: 5432
+  #database: "powerdns"
+  #user: "powerdns"
+  #password: "<password>"
+  #sslmode: "disable"
+
+# Basic DNS settings
+dns:
+  # The domain for the dynamic DNS entries (results in <name>.dyn.example.org)
+  domain: "dyn.example.org"
+  ttl: 60
+
+# The configured clients and keys
+clients:
+  - name: "home"
+    key: "<key>"
