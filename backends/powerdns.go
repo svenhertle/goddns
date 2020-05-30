@@ -117,7 +117,7 @@ func (backend *PowerDNSBackend) Update(name string, ip string, addressType Addre
 	return nil
 }
 
-// connectDB establishes
+// getDomainID reads the PowerDNS domain id from the database
 func (backend *PowerDNSBackend) getDomainID() (int, error) {
 	// connect
 	db, err := sql.Open(backend.dbDriver, backend.dbConnectionString)

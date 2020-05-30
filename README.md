@@ -4,7 +4,7 @@ GoDDNS is a dynamic DNS updater.
 
 ## Why another one?
 
-* Support for IPv4 and IPv6 support
+* Support for IPv4 and IPv6
 * Extensible architecture: new backends (= DNS servers) can be added easily
 * Why not?
 
