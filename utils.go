@@ -43,12 +43,15 @@ func GetIPBehindProxy(r *http.Request) string {
 
 // CheckIP validates the IP address and returns its `AddressType` and whether it is valid or not.
 func CheckIP(ip string) (backends.AddressType, bool) {
+	// parse IP
 	parsed := net.ParseIP(ip)
-	var addressType backends.AddressType
-	if parsed.To4() != nil {
-		addressType = backends.IPv4
-	} else {
-		addressType = backends.IPv6
+	if parsed == nil {
+		return "", false
 	}
-	return addressType, parsed != nil
+
+	// get address type
+	if parsed.To4() != nil {
+		return backends.IPv4, true
+	}
+	return backends.IPv6, true
 }
