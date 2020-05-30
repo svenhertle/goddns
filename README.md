@@ -1,6 +1,10 @@
 # GoDDNS - Go Dynamic DNS server
 
+[![go.dev reference](https://img.shields.io/badge/go-reference-blue)](https://pkg.go.dev/github.com/svenhertle/goddns)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=svenhertle_goddns&metric=alert_status)](https://sonarcloud.io/dashboard?id=svenhertle_goddns)
+
 GoDDNS is a dynamic DNS updater.
+It receives DNS updates from clients, authenticated via a secret key, and writes the changes to an existing DNS server.
 
 ## Why another one?
 

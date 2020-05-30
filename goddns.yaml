@@ -32,6 +32,8 @@ backend:
 dns:
   # The domain for the dynamic DNS entries (results in <name>.dyn.example.org)
   domain: "dyn.example.org"
+
+  # TTL for resrouce records which are managed by GoDDNS
   ttl: 60
 
 # The configured clients and keys
