@@ -1,6 +1,6 @@
 [Unit]
 Description=GoDDNS
-After=network.target, postgresql.service
+After=network.target postgresql.service
 
 [Service]
 ExecStart=/srv/goddns/goddns-x64-linux
