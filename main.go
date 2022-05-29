@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-var goddnsVersion = "0.1.0"
+var goddnsVersion = "0.1.1"
 
 func main() {
 	// command line flags
