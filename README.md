@@ -21,7 +21,7 @@ Currently, the following backends are supported:
 
 # Use it
 
-## Install
+## Install as binary
 
 It is expected here that the DNS server runs already, check the [Wiki](https://github.com/svenhertle/goddns/wiki) for instructions.
 
@@ -34,13 +34,13 @@ Do not run GoDDNS as root, add an dedicated user instead:
     adduser --disabled-login --disabled-password --home /srv/goddns goddns
 
 You can download the latest [release from Github](https://github.com/svenhertle/goddns/releases) or build it with `make`.
-Place it in `/srv/goddns/goddns-x64-linux` and copy the [configuration file](https://github.com/svenhertle/goddns/blob/master/goddns.yaml) to `/srv/goddns/goddns.yaml`.
+Place it in `/srv/goddns/goddns-x64-linux` and copy the [configuration file](https://github.com/svenhertle/goddns/blob/main/goddns.yaml) to `/srv/goddns/goddns.yaml`.
 The location of the configuration file can also be `/etc/goddns/goddns.yaml` or specified via command line.
 Change the configuration file according to your needs, the available options are documented directly in the file.
 
-Configure the reverse proxy (see configuration for [Apache](https://github.com/svenhertle/goddns/blob/master/install/apache.conf) for example) or TLS directly in GoDDNS.
+Configure the reverse proxy (see configuration for [Apache](https://github.com/svenhertle/goddns/blob/main/install/apache.conf) for example) or TLS directly in GoDDNS.
 
-The [systemd service file](https://github.com/svenhertle/goddns/blob/master/install/goddns.service) should be copied to `/etc/systemd/system/goddns.service`.
+The [systemd service file](https://github.com/svenhertle/goddns/blob/main/install/goddns.service) should be copied to `/etc/systemd/system/goddns.service`.
 If necessary, adapt it to your needs and then enable it:
 
     systemctl daemon-reload
@@ -49,6 +49,28 @@ If necessary, adapt it to your needs and then enable it:
 After the GoDDNS configuration was changed, the service needs to be restarted:
 
     systemctl restart goddns
+
+## Install with Docker
+
+Instead of installing the binary and a systemd service, you can run GoDDNS in a container.
+The image contains just the static binary and runs as a non-root user.
+
+Get the [configuration file](https://github.com/svenhertle/goddns/blob/main/goddns.yaml) and adapt it to your needs.
+GoDDNS looks for `/etc/goddns/goddns.yaml` inside the container, so mount your config there:
+
+```
+docker run -d --name goddns \
+  -p 8080:8080 \
+  -v $(pwd)/goddns.yaml:/etc/goddns/goddns.yaml:ro \
+  quay.io/svenhertle/goddns
+```
+
+Notes:
+
+- The listen address in the configuration must be `0.0.0.0` (not `127.0.0.1`), otherwise the published port is not reachable from outside the container.
+- Publish the port you configured (`8080` above is only an example).
+- The database host of your backend (e.g. PostgreSQL for PowerDNS) must be reachable from inside the container. `localhost` refers to the container itself.
+- If you use TLS directly in GoDDNS, mount the certificate and key files into the container as well and reference their paths inside the container.
 
 ## API for clients
 
@@ -79,7 +101,7 @@ The possible HTTP response codes are:
 ## Adding a new backend
 
 One design goal of GoDDNS is that new backends can be easily added.
-All backends need to implement the interface `Backend` (see [backend.go](`https://github.com/svenhertle/goddns/blob/master/backends/backend.go`)).
+All backends need to implement the interface `Backend` (see [backend.go](`https://github.com/svenhertle/goddns/blob/main/backends/backend.go`)).
 
 * Copy `backends/dummy.go` to new `backends/newbackend.go`
 * Adapt file: rename `DummyBackend` to new name
@@ -87,7 +109,7 @@ All backends need to implement the interface `Backend` (see [backend.go](`https:
 * Implement `Configure` and `Update` methods.
 
 `Configure` receives a Viper configuration, so custom configuration options can be implemented directly.
-The [PowerDNS backend](https://github.com/svenhertle/goddns/blob/master/backends/powerdns.go) in `powerdns.go` can be used as an example.
+The [PowerDNS backend](https://github.com/svenhertle/goddns/blob/main/backends/powerdns.go) in `powerdns.go` can be used as an example.
 
 ## Release new version
 
@@ -104,4 +126,4 @@ Build new binary with `make` and upload a new release to Github.
 
 GNU General Public License v3.0 or later
 
-See [LICENSE](https://github.com/svenhertle/goddns/blob/master/LICENSE) to see the full text.
+See [LICENSE](https://github.com/svenhertle/goddns/blob/main/LICENSE) to see the full text.
